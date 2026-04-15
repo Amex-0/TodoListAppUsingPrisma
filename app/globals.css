@@ -1,3 +1,128 @@
 @import "tailwindcss";
 
+/* Design tokens */
+:root {
+	/* Colors */
+	--bg: #0b1020;
+	--surface: #071023;
+	--text: #ffffff;
+	--muted: #94a3b8;
+	--primary: #3b82f6; /* blue-500 */
+	--primary-600: #2563eb;
+	--accent: #7c3aed; /* violet-600 */
+	--success: #10b981;
+	--danger: #ef4444;
+	--card-bg: rgba(255,255,255,0.03);
+	--border: rgba(255,255,255,0.08);
+
+	/* Spacing */
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+
+	/* Radii */
+	--radius-sm: 6px;
+	--radius-md: 10px;
+	--radius-lg: 14px;
+
+	/* Elevation */
+	--elevation-1: 0 6px 18px rgba(2,6,23,0.6);
+
+	/* Motion */
+	--motion-fast: 120ms;
+	--motion-medium: 200ms;
+}
+
+html.light {
+	--bg: #ffffff;
+	--surface: #ffffff;
+	--text: #0b1020;
+	--muted: #64748b;
+	--primary: #1d4ed8; /* darker blue for light bg */
+	--primary-600: #1e40af;
+	--accent: #6d28d9;
+	--success: #059669;
+	--danger: #dc2626;
+	--card-bg: rgba(0,0,0,0.03);
+	--border: rgba(0,0,0,0.08);
+}
+
+/* Base */
+html, body {
+	background-color: var(--bg);
+	color: var(--text);
+}
+
+.theme-toggle-button {
+	background: transparent;
+}
+
+/* Utility-friendly token helpers */
+.card {
+	background: var(--card-bg);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	box-shadow: var(--elevation-1);
+}
+
+.focus-ring:focus {
+	outline: 2px solid var(--primary);
+	outline-offset: 3px;
+}
+
+/* Motion helpers */
+.motion {
+	transition: transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease, opacity var(--motion-fast) ease;
+}
+
+/* small fade-in for entry */
+@keyframes fadeInUp {
+	from { opacity: 0; transform: translateY(6px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeInUp var(--motion-medium) ease both; }
+
+/* Light-mode border overrides for commonly used tailwind border utilities */
+html.light .border-white { border-color: #000000 !important; }
+html.light .border-blue-400 { border-color: #000000 !important; }
+
+/* Floating action button (FAB) styling: white bg with black icon in dark mode,
+	 inverted on light mode (black bg, white icon) */
+.fab {
+	background: #ffffff;
+	color: #000000;
+	border: 1px solid var(--border);
+}
+
+html.light .fab {
+	background: #000000 !important;
+	color: #ffffff !important;
+	border: 1px solid #000000;
+}
+
+/* Ensure border-blue-400 shows in dark/light appropriately */
+html:not(.light) .border-blue-400 { border-color: var(--border) !important; }
+
+/* FAB positioning helper */
+.fab-top-right {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	z-index: 40;
+}
+
+@media (max-width: 640px) {
+	.fab-top-right { top: 0.5rem; right: 0.5rem; }
+}
+
+/* Specific Add-Todo button style: black on light theme */
+.add-btn { }
+html.light .add-btn {
+	background: #000000 !important;
+	color: #ffffff !important;
+	border: 1px solid #000000 !important;
+}
+
+
 

@@ -1,42 +1,36 @@
-import React from 'react'
-import { createTodo as serviceCreateTodo } from '../services/todo';
-import Link from 'next/link';
+import React from 'react';
 import { redirect } from 'next/navigation';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import Input from '../components/Input';
+import { createTodo as createTodoService } from '../services/todo';
 
-
-async function createTodo(data: FormData){
-  "use server"
-  const titleRaw = data.get("title");
-  const title = typeof titleRaw === 'string' ? titleRaw : String(titleRaw ?? '');
-  await serviceCreateTodo(title);
-  redirect("/")
+async function createTodoAction(formData: FormData) {
+  'use server'
+  const title = String(formData.get('title') ?? '').trim();
+  if (!title) return;
+  await createTodoService(title);
+  redirect('/');
 }
 
-export default function NEWPage  ()  {
+export default function NewPage() {
   return (
-    <div>
-        <div className='mt-8 mx-4 '>
-        <h1 className='mb-5'>New ToDo</h1>
-        <form action={createTodo}>
-            <input type="text" 
-            name='title'
-            placeholder='Title' 
-            className='border-2 border-gray-300 rounded-md p-2 w-full'/>
-            {/* <button type='submit' className='bg-blue-500 text-white rounded-md p-2 mt-2'>Create</button> */}
-        <div className='flex justify-end gap-2 '>
+    <div className="mx-auto w-full max-w-lg px-4 py-8">
+      <Card className="p-6 fade-in">
+        <h1 className="text-3xl font-bold text-center mb-4">Create Todo</h1>
 
-        <Link href = "/" className='text-blue-500 mt-4 inline-block'>Cancel</Link>
-        <button type = "submit" className='bg-blue-500 text-white rounded-md p-2 mt-2'>Create</button>
-        </div>
+        <form action={createTodoAction} className="flex flex-col gap-4">
+          <label htmlFor="title" className="sr-only">Todo title</label>
+          <Input id="title" name="title" placeholder="What needs doing?" autoFocus />
+
+          <div className="flex justify-end gap-3">
+            <Button as="a" href="/" variant="ghost">Cancel</Button>
+            <Button type="submit" variant="primary" className="add-btn">Add Todo</Button>
+          </div>
         </form>
-        
-        
-        </div>
-
-
-
-
+      </Card>
     </div>
-  )
+  );
 }
+
 
